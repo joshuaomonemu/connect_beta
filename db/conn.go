@@ -143,6 +143,7 @@ func GetUserbyEmail(email string) (models.User, error) {
 	return user, nil
 }
 func SaveToDatabase(title, caption, file_url, user_id string) error {
+	db, _ := Conn()
 	query := `
 		INSERT INTO photo (title, caption, file_url, user_id)
 		VALUES (@p1, @p2, @p3, @p4)
@@ -157,6 +158,7 @@ func SaveToDatabase(title, caption, file_url, user_id string) error {
 }
 
 func GetAllPhotos(c *fiber.Ctx) ([]models.Photo, error) {
+	db, _ := Conn()
 	rows, err := db.Query(`SELECT id, title, caption, file_url, user_id FROM photo ORDER BY id DESC`)
 	if err != nil {
 		log.Println("Query error:", err)
@@ -179,6 +181,7 @@ func GetAllPhotos(c *fiber.Ctx) ([]models.Photo, error) {
 }
 
 func GetPhotoByID(userID string) ([]models.Photo, error) {
+	db, _ := Conn()
 	query := `SELECT id, title, caption, file_url, user_id, uploaded_at FROM photo WHERE user_id = @p1 ORDER BY id DESC`
 
 	rows, err := db.Query(query, userID)

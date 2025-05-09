@@ -1,11 +1,15 @@
 package main
 
 import (
-	"app/db"
 	"app/routes"
+	"github.com/joho/godotenv"
+	"log"
 )
 
 func main() {
-	db.Conn()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	routes.Run()
 }

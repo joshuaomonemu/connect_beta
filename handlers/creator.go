@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"mime/multipart"
+	"os"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
@@ -13,10 +14,7 @@ import (
 )
 
 const (
-	account       = "https://videoapp.blob.core.windows.net/"
 	containerName = "videoapplication"
-	blobName      = "sample-blob"
-	sampleFile    = "path/to/sample/file"
 )
 
 func handleError(err error) {
@@ -70,10 +68,12 @@ func HandleUpload(c *fiber.Ctx) error {
 
 func uploadToBlob(file multipart.File, filename string) (string, error) {
 
+	account_pass := os.Getenv("AZURE_STORAGE_ACCOUNT")
+
 	accountName := "videoapp"
 	serviceURL := fmt.Sprintf("https://%s.blob.core.windows.net/", accountName)
 
-	client, err := azblob.NewClientFromConnectionString("DefaultEndpointsProtocol=https;AccountName=videoapp;AccountKey=tJI1pMu99/OaEhbx6hJXp/Cct5g5x+KBUHZ5OBGasQRJwCM/hruA5LqiEXVIrZ2fnOJtOljrefaj+AStNAGlFA==;EndpointSuffix=core.windows.net", nil)
+	client, err := azblob.NewClientFromConnectionString(account_pass, nil)
 	handleError(err)
 
 	// Build blob name with timestamp to avoid collisions
