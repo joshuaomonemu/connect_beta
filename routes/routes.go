@@ -2,6 +2,7 @@ package routes
 
 import (
 	"app/handlers"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -9,6 +10,13 @@ import (
 // The function that runs all routes and starts the server
 func Run() {
 	app := fiber.New()
+
+	// Enable CORS for all origins
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // Or restrict to specific origin like "http://localhost:5500"
+		AllowHeaders: "Origin, Content-Type, Accept",
+		AllowMethods: "GET,POST,HEAD,PUT,DELETE,PATCH",
+	}))
 
 	app.Post("/auth/login", handlers.Login)
 	app.Post("/auth/signup", handlers.Signup)
