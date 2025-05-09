@@ -15,7 +15,7 @@ func Run() {
 
 	// Enable CORS
 	app.Use(cors.New(cors.Config{
-		AllowOrigins:     "http://localhost:8080", // Change to your frontend domain if needed
+		AllowOrigins:     "http://localhost", // Change to your frontend domain if needed
 		AllowCredentials: true,
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowMethods:     "GET, POST, HEAD, PUT, DELETE, PATCH, OPTIONS",
